@@ -7,8 +7,8 @@
 <!-- the Compile on Save feature is turned off for the project. -->
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
-<project name="WebTail" default="default" basedir=".">
-    <description>Builds, tests, and runs the project WebTail.</description>
+<project name="NetTail" default="default" basedir=".">
+    <description>Builds, tests, and runs the project NetTail.</description>
     <import file="nbproject/build-impl.xml"/>
     
     <property environment="env" />
@@ -17,14 +17,14 @@
              classname="com.oracle.appbundler.AppBundlerTask"   
              classpath="lib/appbundler-1.0.jar" />
 
-    <target name="bundle-WebTail">
-        <bundleapp outputdirectory="dist"
-            name="WebTail"
-            displayname="WebTail"
-            identifier="webtail.backend.WebTail"
-            mainclassname="webtail.backend.WebTail">
+    <target name="build-osx-application">
+        <bundleapp outputdirectory="store"
+            name="NetTail"
+            displayname="NetTail"
+            identifier="main.java.com.fluid.NetTail"
+            mainclassname="main.java.com.fluid.NetTail">
             <runtime dir="${env.JAVA_HOME}" />
-            <classpath file="store/WebTail.jar" />
+            <classpath file="store/NetTail.jar" />
         </bundleapp>
     </target>
 
@@ -77,7 +77,7 @@
 
     An example of overriding the target for project execution could look like this:
 
-        <target name="run" depends="WebTail-impl.jar">
+        <target name="run" depends="NetTail-impl.jar">
             <exec dir="bin" executable="launcher.exe">
                 <arg file="${dist.jar}"/>
             </exec>
@@ -90,13 +90,13 @@
 
     -->
     
-    <target name="package-for-store" depends="jar">
+    <target name="build-single-jar" depends="jar">
 
         <!-- Change the value of this property to be the name of your JAR,
              minus the .jar extension. It should not have spaces.
              <property name="store.jar.name" value="MyJarName"/>
         -->
-        <property name="store.jar.name" value="WebTail"/>
+        <property name="store.jar.name" value="NetTail"/>
 
 
         <!-- don't edit below this line -->
