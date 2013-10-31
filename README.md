@@ -1,7 +1,7 @@
 NetTail
 =======
 
-Java Desktop Application that can monitor web accessible log files using a similar process as tail.
+A Java Desktop Application that can monitor web accessible log files using a similar process as tail.
 
 This was a fun project created in my spare time at work in order to monitor web accessible log files for the Demandware Platform.  The log files for a specific Demandware server are password protected using HTTP Basic AUTH and are only accessible via HTTP or the WebDav protocol.
 
@@ -43,7 +43,7 @@ ant build-single-jar
 # Bundled application will be in the store/ folder
 ```
 
-**Bundle application into an executable OSX application **
+**Bundle application into an executable OSX application**
 
 [http://docs.oracle.com/javase/7/docs/technotes/guides/jweb/packagingAppsForMac.html](http://docs.oracle.com/javase/7/docs/technotes/guides/jweb/packagingAppsForMac.html)
 
