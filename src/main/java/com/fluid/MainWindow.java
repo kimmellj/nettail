@@ -172,7 +172,6 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         favoritesMenu = new javax.swing.JMenu();
         manageFavoritesMenu = new javax.swing.JMenuItem();
-        addFavoriteMenu = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         configMenu = new javax.swing.JMenuItem();
 
@@ -224,14 +223,6 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         favoritesMenu.add(manageFavoritesMenu);
-
-        addFavoriteMenu.setText("Add Favorite");
-        addFavoriteMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addFavoriteMenuActionPerformed(evt);
-            }
-        });
-        favoritesMenu.add(addFavoriteMenu);
 
         jMenuBar1.add(favoritesMenu);
 
@@ -334,17 +325,11 @@ public class MainWindow extends javax.swing.JFrame {
         this.favoritesWindow.setVisible(true);
     }//GEN-LAST:event_manageFavoritesMenuActionPerformed
 
-    private void addFavoriteMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFavoriteMenuActionPerformed
-        this.favoritesWindow.setVisible(true);
-        this.favoritesWindow.showAddWindow();
-    }//GEN-LAST:event_addFavoriteMenuActionPerformed
-
     private void configMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_configMenuActionPerformed
         this.configWindow.setVisible(true);
     }//GEN-LAST:event_configMenuActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem addFavoriteMenu;
     private javax.swing.JMenuItem configMenu;
     private javax.swing.JMenu editMenu;
     private javax.swing.JComboBox favoriteSelector;

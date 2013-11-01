@@ -20,23 +20,14 @@ public class FavoritesWindow extends javax.swing.JFrame {
     private FavoritesList favorites;
     
     /**
-     * Instance of the Add Favorite Window
-     */
-    private AddFavoriteWindow addFavoriteWindow;
-    
-    /**
      * Current Favorite Being Viewed
      */
     private Favorite currentFavorite;
-
+    
     /**
-     * Add Window Setter
-     *
-     * @param addFavoriteWindow
+     * Are we currently adding a favorite?
      */
-    public void setAddFavoriteWindow(AddFavoriteWindow addFavoriteWindow) {
-        this.addFavoriteWindow = addFavoriteWindow;
-    }
+    private boolean addingFavorite = true;
 
     /**
      * Creates new form FavoritesWindow
@@ -46,6 +37,8 @@ public class FavoritesWindow extends javax.swing.JFrame {
 
         //We don't want to close the application when this window close
         this.setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
+        
+        this.saveFavoriteButton.setText("Save New Favorite");
     }
 
     /**
@@ -55,10 +48,6 @@ public class FavoritesWindow extends javax.swing.JFrame {
      */
     public void favorites(FavoritesList favorites) {
         this.favorites = favorites;
-    }
-    
-    public void showAddWindow() {
-        this.addFavoriteWindow.setVisible(true);
     }
     
     public JList getFavoritesList() {
@@ -71,6 +60,8 @@ public class FavoritesWindow extends javax.swing.JFrame {
         this.favoriteURL.setText(favorite.getBaseUrl());
         this.favoriteUsername.setText(favorite.getUsername());
         this.favoritePassword.setText(favorite.getPassword());
+        
+        this.saveFavoriteButton.setText("Save Favorite");
     }
     
     public void emptyFavorite () {
@@ -95,6 +86,10 @@ public class FavoritesWindow extends javax.swing.JFrame {
      * Save the currently being edited favorite
      */
     public boolean saveCurrentFavorite () {
+        if (this.addingFavorite) {
+            this.currentFavorite = new Favorite();
+        }
+        
         this.currentFavorite.setUsername(this.favoriteUsername.getText());
         this.currentFavorite.setPassword(new String(this.favoritePassword.getPassword()));
         
@@ -104,6 +99,11 @@ public class FavoritesWindow extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }        
+        
+        if (this.addingFavorite) {
+            this.favorites.add(this.currentFavorite);
+            this.favoritesDisplayList.setSelectedValue(this.currentFavorite, true);
+        }
         
         this.favorites.saveFavoritesToFile();
         
@@ -268,7 +268,11 @@ public class FavoritesWindow extends javax.swing.JFrame {
         Favorite favorite = (Favorite)this.favoritesDisplayList.getSelectedValue();
         
         if (favorite != null) {
+            this.addingFavorite = false;
             this.showFavorite(favorite);
+        } else {
+            this.addingFavorite = true;
+            this.saveFavoriteButton.setText("Save New Favorite");
         }
         
     }//GEN-LAST:event_favoritesDisplayListValueChanged
@@ -286,7 +290,9 @@ public class FavoritesWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteFavoriteButtonActionPerformed
 
     private void addFavoriteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFavoriteButtonActionPerformed
-        addFavoriteWindow.setVisible(true);
+        this.addingFavorite = true;
+        this.saveFavoriteButton.setText("Save New Favorite");
+        this.emptyFavorite();
     }//GEN-LAST:event_addFavoriteButtonActionPerformed
 
     private void hideShowPasswordCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hideShowPasswordCheckActionPerformed

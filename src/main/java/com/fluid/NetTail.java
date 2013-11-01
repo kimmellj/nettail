@@ -30,10 +30,6 @@ public class NetTail {
      * Configuration List Window
      */
     private FavoritesWindow configsWindow;
-    /**
-     * Add a new Configuration Window
-     */
-    private AddFavoriteWindow addConfigWindow;
 
     /**
      * Constructor - This is the main one for the application. It acts as a director
@@ -74,17 +70,13 @@ public class NetTail {
          */
         this.mainWindow = new MainWindow();
         this.configsWindow = new FavoritesWindow();
-        this.addConfigWindow = new AddFavoriteWindow();
-        
         
         /**
          * Configure Windows
          */
-        this.configsWindow.setAddFavoriteWindow(this.addConfigWindow);
         this.mainWindow.setFavoritesWindow(this.configsWindow);
         
         this.configsWindow.setVisible(false);
-        this.addConfigWindow.setVisible(false);
         
         this.configsWindow.getFavoritesList().setModel(favoritesListModel);
         
@@ -114,7 +106,6 @@ public class NetTail {
         
         
         this.configsWindow.favorites(this.favoritesList);
-        this.addConfigWindow.setFavorites(this.favoritesList);
 
         /**
          * Build Logs
