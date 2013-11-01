@@ -22,6 +22,8 @@ This project is my first full Java Desktop application and feed back is always w
 * Add a name field for favorites
 * Integrate the add favorites window into the manage favorites window
 * Encrypt local passwords
+* Save settings / favorites to a more environment specific location (i.e. ~/Application Support on OSX)
+* OSX Application Build needs to just use the JRE not JDK
 
 ## Building the application
 

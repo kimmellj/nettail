@@ -19,6 +19,7 @@
 
     <target name="build-osx-application">
         <bundleapp outputdirectory="store"
+            icon="src/main/resources/com/fluid/icon.icns"
             name="NetTail"
             displayname="NetTail"
             identifier="main.java.com.fluid.NetTail"

@@ -4,6 +4,8 @@
 package main.java.com.fluid;
 
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JTextArea;
@@ -65,6 +67,14 @@ public class MainWindow extends javax.swing.JFrame {
         
         this.configWindow = new ConfigWindow();
         this.configWindow.setVisible(false);
+        
+        /**
+         * @todo Not working on OSX, may need to change
+         */
+        java.net.URL url = ClassLoader.getSystemResource("main/resources/com/fluid/icon.png");        
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Image img = kit.createImage(url);
+        this.setIconImage(img);
     }    
 
     /**
