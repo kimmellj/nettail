@@ -2,7 +2,7 @@
  * This class was copied from 
  * http://javaskeleton.blogspot.com/2010/07/avoiding-peer-not-authenticated-with.html
  */
-package main.java.com.fluid;
+package main.java.com.fluid.web;
 
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;

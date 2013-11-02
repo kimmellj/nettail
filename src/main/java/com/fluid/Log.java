@@ -1,13 +1,9 @@
 package main.java.com.fluid;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import javax.swing.JTextArea;
-import org.apache.http.HttpEntity;
-import org.apache.http.util.EntityUtils;
 
 /**
  * This class represents a log file
@@ -42,7 +38,7 @@ public class Log implements Runnable {
      * An instance of Remote Request that is used to get the contents of the
      * file
      */
-    RemoteRequest remoteRequest;
+    Connection connection;
     /**
      * The largest number of bytes to retrieve at one time
      */
@@ -60,6 +56,11 @@ public class Log implements Runnable {
      * Refresh Interval
      */
     int refreshInterval = 2000;
+    
+    public Log (Connection connection, Favorite favorite) {
+        this.connection = connection;
+        this.favorite = favorite;
+    }
     
     /**
      * Last Modified Getter
@@ -149,7 +150,6 @@ public class Log implements Runnable {
      */
     public void setFavorite(Favorite favorite) {
         this.favorite = favorite;
-        this.setRemoteRequest();
     }
 
     /**
@@ -172,24 +172,11 @@ public class Log implements Runnable {
 
     /**
      * Build the Remote request from the configuration
+     * 
+     * @param connection
      */
-    public void setRemoteRequest() {
-        this.remoteRequest = new RemoteRequest(
-                this.favorite.getProtocol(),
-                this.favorite.getDomain(),
-                this.favorite.getPort(),
-                this.favorite.getUsername(),
-                this.favorite.getPassword()
-        );
-    }
-
-    /**
-     * Retrieve the remote Request
-     *
-     * @return
-     */
-    public RemoteRequest getRemoteRequest() {
-        return this.remoteRequest;
+    public void setConnection(Connection connection) {
+        this.connection = connection;
     }
 
     /**
@@ -211,30 +198,23 @@ public class Log implements Runnable {
             System.out.println("Loading ...");
         }
 
-        HttpEntity httpEntity;
-
-        try {
-            httpEntity = this.remoteRequest.start(this.getPath()).getEntity();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            return;
-        }
-
         /**
          * Consume the initial bulk of the file If the file is larger than the
          * limit, retrieve the last portion of the file up to the limit
          */
         int skip = 0;
-        long contentLength = httpEntity.getContentLength();
+        long contentLength = this.connection.getContentLength(this.getPath());
         
         System.out.println("Content Limit: "+this.getLimit());
 
         if (contentLength > this.getLimit()) {
-            System.out.println("Content too large: " + httpEntity.getContentLength());
-            skip = (int) httpEntity.getContentLength() - this.getLimit();
+            System.out.println("Content too large: " + this.connection.getContentLength());
+            skip = (int) this.connection.getContentLength() - this.getLimit();
         }
 
-        String content = this.consume(httpEntity, skip);
+        this.connection.requestContent(this.getPath(), skip);
+        
+        String content = this.connection.getContent();
 
         if (this.textField != null) {
             this.textField.setText(content);
@@ -248,19 +228,13 @@ public class Log implements Runnable {
          * continue flag becoming false
          */
         do {
-            try {
-                httpEntity = this.remoteRequest.start(this.getPath()).getEntity();
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-                return;
-            }
-
             /**
              * We're going to retrieve all content skipping the last content
              * length this conveniently gives us anything that has changed since
              * the last time
              */
-            content = this.consume(httpEntity, (int) contentLength);
+            this.connection.requestContent(this.getPath(), contentLength);
+            content = this.connection.getContent();            
 
             if (this.textField != null) {
                 this.textField.append(content);
@@ -269,7 +243,7 @@ public class Log implements Runnable {
                 System.out.println(content);
             }
 
-            contentLength = httpEntity.getContentLength();
+            contentLength = this.connection.getContentLength();
 
             try {
                 System.out.println("Sleeping for: "+this.getRefreshInterval());
@@ -279,39 +253,6 @@ public class Log implements Runnable {
             }
 
         } while (this.isContinueLogging());
-    }
-
-    /**
-     * Consume the current HttpEntity after the skip number and build a string
-     * of the contents
-     *
-     * @param httpEntity
-     * @param skip
-     * @return
-     */
-    public String consume(HttpEntity httpEntity, int skip) {
-        String content = "";
-        try {
-            InputStream is = httpEntity.getContent();
-            is.skip(skip);
-
-            int i;
-            char c;
-
-            while ((i = is.read()) != -1) {
-                c = (char) i;
-                content += c;
-            }
-
-            EntityUtils.consume(httpEntity);
-
-            this.remoteRequest.end();
-
-        } catch (IOException | IllegalStateException e) {
-            System.out.println(e.getMessage());
-        }
-
-        return content;
     }
 
     /**

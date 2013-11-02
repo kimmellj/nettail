@@ -1,0 +1,10 @@
+NetTail
+Copyright 2013 Fluid, Inc.
+
+This product includes/uses software(s) developed by:
+- Apache Commons Codec - The Apache Software Foundation - /lib/commons-codec-1.8.jar
+- App Bundler Ant Task - Oracle Corporation - /lib/appbundler-1.0.jar
+- Apache HttpComponents HttpClient - The Apache Software Foundation - /lib/httpclient-4.2.5.jar
+- Apache HttpComponents HttpClient Cache - The Apache Software Foundation - /lib/httpclient-cache.4.2.5.jar
+- Apache HttpComponents HttpCore - The Apache Software Foundation - /lib/httpcore-4.2.4.jar
+- Commons Logging - The Apache Software Foundation - /lib/commons-logging-1.1.1.jar

@@ -9,6 +9,12 @@ This was a fun project created in my spare time at work in order to monitor web 
 
 This project is my first full Java Desktop application and feed back is always welcome. If you have an suggestion on how to make the application better or how to better structure some of the internal components, please let me know!
 
+The following projects are used within this application:
+* [http://hc.apache.org/httpcomponents-client-ga/](http://hc.apache.org/httpcomponents-client-ga/)
+* [http://commons.apache.org/proper/commons-codec/](http://commons.apache.org/proper/commons-codec/
+* [http://commons.apache.org/proper/commons-logging/](http://commons.apache.org/proper/commons-logging/)
+* [https://java.net/downloads/appbundler/appbundler.html](https://java.net/downloads/appbundler/appbundler.html)
+
 ## Features
 * Locally store any number of saved favorites
 	* A favorite is a saved site configuration
@@ -19,10 +25,12 @@ This project is my first full Java Desktop application and feed back is always w
 ## Current ToDo
 
 * Figure out a better way to handle the data models for Favorites
-* Add a name field for favorites
 * Encrypt local passwords
 * Save settings / favorites to a more environment specific location (i.e. ~/Application Support on OSX)
 * OSX Application Build needs to just use the JRE not JDK
+* Make Favorite -> Protocols more of dynamic lists instead of a boolean for WebDav
+* Better logging using the logger library 
+* Write more tests and clean up the existing ones
 
 ## Building the application
 

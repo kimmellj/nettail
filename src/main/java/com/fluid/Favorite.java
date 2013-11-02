@@ -31,6 +31,14 @@ public class Favorite {
     public boolean isWebdav() {
         return webdav;
     }
+    
+    public String getConnectionType() {
+        if (this.isWebdav()) {
+            return "WebDav";
+        } else {
+            return "Web";
+        }
+    }
 
     /**
      * Set whether this is a webdav connection or not

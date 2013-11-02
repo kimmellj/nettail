@@ -1,24 +1,8 @@
 package main.java.com.fluid;
 
-import com.sun.org.apache.xerces.internal.dom.DeferredDocumentImpl;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 
 /**
@@ -26,22 +10,28 @@ import org.xml.sax.SAXException;
  *
  * @author James Kimmell <jkimmell@fluid.com>
  */
-public class Logs {
+public abstract class Logs {
 
     /**
      * Favorite for this set of logs
      */
-    private Favorite favorite;
+    protected Favorite favorite;
+    
     /**
      * Actual logs contained in this directory
      */
-    private ArrayList<Log> logs;
+    protected ArrayList<Log> logs;
     
     /**
      * A list model to keep in sync with the list of logs
      */
-    private DefaultListModel listModel;
-
+    protected DefaultListModel listModel;
+    
+    /**
+     * Connection
+     */
+    protected Connection connection;
+    
     /**
      * Constructor
      *
@@ -50,16 +40,20 @@ public class Logs {
     public Logs() {
         this.logs = new ArrayList<>();
     }
-
+    
     /**
-     * Get the List Model being used
-     *
-     * @return
+     * Refresh the log list model
+     * 
+     * This should be executed any times there are changes to the log files
      */
-    public DefaultListModel getListModel() {
-        return listModel;
+    public void refreshList() {
+        this.listModel.clear();
+        
+        for (Log logFile : this.logs) {
+            this.listModel.addElement(logFile);
+        }
     }
-
+    
     /**
      * Set the list model to be used
      *
@@ -88,6 +82,14 @@ public class Logs {
     }
 
     /**
+     * Get the favorite being used
+     * @return 
+     */
+    public Favorite getFavorite() {
+        return this.favorite;
+    }
+
+    /**
      * Get a specific log file by index
      *
      * @param index
@@ -100,114 +102,23 @@ public class Logs {
     /**
      * Build the list of logs, using either HTTP or WebDav
      */
-    public void buildLogs() {
-        this.listModel.removeAllElements();
-
-        this.logs = new ArrayList();
-        
-        if (this.favorite.isWebdav()) {
-            this.buildLogsWebDav();
-        } else {
-            this.buildLogsHttp();
-        }
-    }
-
+    public abstract boolean buildLogs();
+    
     /**
-     * Build the list of log files based on the Favorite using the http protocol
-     *
-     * This will look at the list of files in a directory and parse out the
-     * links that end in a .txt or .log
+     * Setup the connection
      */
-    public void buildLogsHttp() {
-        RemoteRequest request = new RemoteRequest(
-                this.favorite.getProtocol(),
-                this.favorite.getDomain(),
-                this.favorite.getPort(),
-                this.favorite.getUsername(),
-                this.favorite.getPassword()
-        );
-
-        /**
-         * Perform an regular expression to look for all links that contain
-         * .txt or .log
-         */
-        String content = request.getContent(this.favorite.getPath(), 0);
-
-        Pattern r = Pattern.compile("\\<a href=\"(.*?)\"\\>");
-        Matcher m = r.matcher(content);
-
-        while (m.find()) {
-            String link = m.group(0).replace("<a href=\"", "").replace("\">", "");
-
-            if (link.contains(".log") || link.contains(".txt")) {
-                Log log = new Log();
-                log.setPath("/" + link);
-                log.setFavorite(this.favorite);
-                this.logs.add(log);
-            }
-        }
-
-        this.addLogsToList();
-    }
-
+    public abstract void setConnection();
+    
     /**
-     * Build the list of log files based on the Favorite using the WebDav protocol
-     *
-     * This will look at the list of files in a directory and parse out the
-     * links that end in a .txt or .log
-     */    
-    public void buildLogsWebDav() {
-        RemoteRequest request = new RemoteRequest(
-                this.favorite.getProtocol(),
-                this.favorite.getDomain(),
-                this.favorite.getPort(),
-                this.favorite.getUsername(),
-                this.favorite.getPassword()
-        );
-
-        String content = request.getWebDavContent(this.favorite.getPath());
-
-        /**
-         * Use XML to parse the HTML response
-         * 
-         * We're looking for links that end in .log or .txt
-         */
-        try {
-            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            DeferredDocumentImpl deferredDoc = (DeferredDocumentImpl) docBuilder.parse(new InputSource(new ByteArrayInputStream(content.getBytes("utf-8"))));
-
-            Element doc = deferredDoc.getDocumentElement();
-            NodeList multistatusElements = deferredDoc.getElementsByTagName("multistatus");
-            NodeList responsesNodeList = multistatusElements.item(0).getChildNodes();
-
-            for (int i = 0; i < responsesNodeList.getLength(); i++) {
-                Node responseNode = responsesNodeList.item(i);
-                if (responseNode.getNodeName().equals("response")) {
-                    NodeList responseChildrenNodeList = responseNode.getChildNodes();
-
-                    Node href = responseChildrenNodeList.item(0);
-                    Node propStat = responseChildrenNodeList.item(2);
-
-                    String link = href.getTextContent();
-
-                    if (link.contains(".log") || link.contains(".txt")) {
-                        Log log = new Log();
-                        log.setPath(link);
-                        log.setFavorite(this.favorite);
-                        log.setLastModified(propStat.getFirstChild().getFirstChild().getTextContent());
-                        this.logs.add(log);
-                    }
-                }
-            }
-        } catch (ParserConfigurationException | SAXException | IOException | DOMException e) {
-            System.out.println("There was an issue parsing the XML document");
-            System.out.println(e.getMessage());
+     * Get the current connection
+     */
+    public Connection getConnection() {
+        
+        if (this.connection == null) {
+            this.setConnection();
         }
-
-        Collections.sort(this.logs, new CustomComparator());
-
-        this.addLogsToList();
+        
+        return this.connection;
     }
 
     /**
@@ -246,22 +157,5 @@ public class Logs {
         }
 
         return returnString;
-    }
-}
-
-/**
- * This comparator is used to sort a list of log files by their time stamp descending
- * 
- * @author James Kimmell <jkimmell@fluid.com>
- */
-class CustomComparator implements Comparator<Log> {
-
-    @Override
-    public int compare(Log o1, Log o2) {
-        if (o1.getLastModifiedTimeStamp() == o2.getLastModifiedTimeStamp()) {
-            return 0;
-        }
-
-        return o1.getLastModifiedTimeStamp() > o2.getLastModifiedTimeStamp() ? -1 : 1;
     }
 }

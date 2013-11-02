@@ -60,6 +60,7 @@ public class FavoritesWindow extends javax.swing.JFrame {
         this.favoriteURL.setText(favorite.getBaseUrl());
         this.favoriteUsername.setText(favorite.getUsername());
         this.favoritePassword.setText(favorite.getPassword());
+        this.favoriteProtocol.setSelectedItem(favorite.getConnectionType());
         
         this.saveFavoriteButton.setText("Save Favorite");
     }
@@ -67,7 +68,8 @@ public class FavoritesWindow extends javax.swing.JFrame {
     public void emptyFavorite () {
         this.favoriteURL.setText("");
         this.favoriteUsername.setText("");
-        this.favoritePassword.setText("");        
+        this.favoritePassword.setText("");       
+        this.favoriteProtocol.setSelectedIndex(0);
     }
     
     /**
@@ -99,6 +101,10 @@ public class FavoritesWindow extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }        
+        
+        String selectedProtocol = (String)this.favoriteProtocol.getSelectedItem();
+        
+        this.currentFavorite.setWebdav(selectedProtocol.contains("HTTP") ? false : true);
         
         if (this.addingFavorite) {
             this.favorites.add(this.currentFavorite);
@@ -133,6 +139,8 @@ public class FavoritesWindow extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         hideShowPasswordCheck = new javax.swing.JCheckBox();
         saveFavoriteButton = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        favoriteProtocol = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Favorites");
@@ -183,6 +191,10 @@ public class FavoritesWindow extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setText("Protocol");
+
+        favoriteProtocol.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "HTTP", "WebDav" }));
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -204,11 +216,6 @@ public class FavoritesWindow extends javax.swing.JFrame {
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(layout.createSequentialGroup()
-                                .add(jLabel5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(hideShowPasswordCheck)
-                                .add(0, 0, Short.MAX_VALUE))
-                            .add(layout.createSequentialGroup()
                                 .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                                 .add(favoritePassword, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE))
@@ -220,7 +227,18 @@ public class FavoritesWindow extends javax.swing.JFrame {
                             .add(layout.createSequentialGroup()
                                 .add(jLabel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(favoriteUsername))))))
+                                .add(favoriteUsername))
+                            .add(layout.createSequentialGroup()
+                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(layout.createSequentialGroup()
+                                        .add(jLabel6, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                        .add(favoriteProtocol, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                    .add(layout.createSequentialGroup()
+                                        .add(jLabel5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                        .add(hideShowPasswordCheck)))
+                                .add(0, 0, Short.MAX_VALUE))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -241,15 +259,17 @@ public class FavoritesWindow extends javax.swing.JFrame {
                     .add(favoritePassword, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(layout.createSequentialGroup()
-                        .add(7, 7, 7)
-                        .add(jLabel5))
+                    .add(jLabel5)
                     .add(hideShowPasswordCheck))
-                .add(19, 19, 19)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel6)
+                    .add(favoriteProtocol, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(61, 61, 61)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(deleteFavoriteButton)
                     .add(saveFavoriteButton))
-                .addContainerGap(349, Short.MAX_VALUE))
+                .addContainerGap(268, Short.MAX_VALUE))
             .add(layout.createSequentialGroup()
                 .add(jScrollPane1)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -307,6 +327,7 @@ public class FavoritesWindow extends javax.swing.JFrame {
     private javax.swing.JButton addFavoriteButton;
     private javax.swing.JButton deleteFavoriteButton;
     private javax.swing.JPasswordField favoritePassword;
+    private javax.swing.JComboBox favoriteProtocol;
     private javax.swing.JTextField favoriteURL;
     private javax.swing.JTextField favoriteUsername;
     private javax.swing.JList favoritesDisplayList;
@@ -316,6 +337,7 @@ public class FavoritesWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton saveFavoriteButton;
     // End of variables declaration//GEN-END:variables

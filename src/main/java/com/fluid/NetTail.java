@@ -44,7 +44,7 @@ public class NetTail {
          * Ensure that the configuration directory exists and that there is a
          * favoritesList file within it. The FavoritesWindow class will expect this.
          */
-        String configsDirName = System.getProperty("user.home") + "/.webtail/";
+        String configsDirName = System.getProperty("user.home") + "/.nettail/";
         String configsFileName = configsDirName + "configs";
 
         try {
@@ -106,19 +106,6 @@ public class NetTail {
         
         
         this.favoritesWindow.favorites(this.favoritesList);
-
-        /**
-         * Build Logs
-         */
-        this.logs = new Logs();
-        logs.setListModel(this.mainWindow.getLogListModel());
-
-        if (favoritesComboBoxModel.getSelectedItem() != null) {
-            logs.setFavorite((Favorite)favoritesComboBoxModel.getSelectedItem());
-            logs.buildLogs();
-        }
-
-        this.mainWindow.setLogs(logs);
         this.mainWindow.setVisible(true);
     }
 

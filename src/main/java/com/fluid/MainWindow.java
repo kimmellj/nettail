@@ -136,19 +136,19 @@ public class MainWindow extends javax.swing.JFrame {
         if (this.loggerThread != null && this.loggerThread.isAlive()) {
             this.loggerThread.interrupt();
         }
-
-        this.log = (Log) this.logListModel.getElementAt(this.logList.getSelectedIndex());
-        log.setRefreshInterval(this.configWindow.refreshInterval);
-        log.setLimit(this.configWindow.contentLimit);
-        log.setTextField(this.logViewer);
         
-        this.configWindow.setLog(this.log);
-
         try {
+            this.log = (Log) this.logListModel.getElementAt(this.logList.getSelectedIndex());
+            log.setRefreshInterval(this.configWindow.refreshInterval);
+            log.setLimit(this.configWindow.contentLimit);
+            log.setTextField(this.logViewer);
+
+            this.configWindow.setLog(this.log);
+
             loggerThread = new Thread(log);
             loggerThread.start();
         } catch (Exception e) {
-            System.out.println("Thread Error: " + e.getMessage());
+            System.out.println("Thread Error or there wasn't an element to select: " + e.getMessage());
         }        
     }
 
@@ -303,11 +303,22 @@ public class MainWindow extends javax.swing.JFrame {
      * @param evt
      */
     private void favoriteSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_favoriteSelectorActionPerformed
-        if (this.logs == null) {
+        Favorite favorite = (Favorite) this.favoriteSelector.getSelectedItem();
+        
+        try {
+            Object connectionInstance = Class.forName("main.java.com.fluid.webdav."+favorite.getConnectionType()+"Logs").newInstance();
+            this.logs = (Logs)connectionInstance;
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+            System.out.println("Error created connection class");
+            System.out.println(e.getMessage());
+            
+            /**
+             * @todo Display Error Message here
+             */
+            
             return;
         }
-
-        Favorite favorite = (Favorite) this.favoriteSelector.getSelectedItem();
+        
         this.logs.setListModel(this.getLogListModel());
         this.logs.setFavorite(favorite);
         this.logs.buildLogs();
