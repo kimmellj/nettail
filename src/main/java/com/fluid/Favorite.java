@@ -9,7 +9,7 @@ import java.net.URL;
  */
 public class Favorite {
 
-    private String username, password, baseUrl, protocol, domain, path;
+    private String username, password, baseUrl, protocol, domain, path, name;
     private int port;
     private boolean webdav;
 
@@ -21,7 +21,7 @@ public class Favorite {
      * @param baseUrl
      * @throws Exception
      */
-    public void load(String username, String password, String baseUrl, boolean webdav) throws Exception {
+    public void load(String name, String username, String password, String baseUrl, boolean webdav) throws Exception {
         this.setUsername(username);
         this.setPassword(password);
         this.setBaseUrl(baseUrl);
@@ -113,6 +113,14 @@ public class Favorite {
     }
 
     /**
+     * Getter for the name field
+     * @return 
+     */
+    public String getName() {
+        return name;
+    }
+    
+    /**
      * Set the Favorite Username
      *
      * @param username
@@ -161,24 +169,20 @@ public class Favorite {
     }
 
     /**
+     * Setter for the name field
+     * @param name 
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
      * Represent this object as a string
      *
      * @return
      */
     @Override
     public String toString() {
-        String returnString = "";
-
-        if (this.isWebdav()) {
-            returnString += "webdav:";
-        }
-        
-        if (this.getUsername().length() > 0) {
-            returnString += this.getUsername() + "@" + this.getBaseUrl();
-        } else {
-            returnString += this.getBaseUrl();
-        }
-
-        return returnString;
+        return this.getName();
     }
 }

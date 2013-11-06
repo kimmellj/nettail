@@ -32,7 +32,7 @@ public class Logs extends main.java.com.fluid.Logs {
      */
     @Override
     public boolean buildLogs() {
-        this.connection.requestContent(this.getFavorite().getPath()); 
+        this.getConnection().requestContent(this.getFavorite().getPath()); 
         ArrayList<HashMap> listOfFiles = this.getFileList(this.getConnection().getContent());
         
         for (HashMap logFile : listOfFiles) {

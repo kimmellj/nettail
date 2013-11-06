@@ -20,7 +20,11 @@ import javax.swing.JTextArea;
  * @author James Kimmell <jkimmell@fluid.com>
  */
 public class MainWindow extends javax.swing.JFrame {
-
+    /**
+     * Logger
+     */
+    private org.apache.commons.logging.Log logger = org.apache.commons.logging.LogFactory.getLog(MainWindow.class);
+    
     /**
      * List Model for the list of Logs
      */
@@ -185,6 +189,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        logList.setBackground(new java.awt.Color(244, 244, 244));
         logList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 logListValueChanged(evt);
@@ -246,29 +251,28 @@ public class MainWindow extends javax.swing.JFrame {
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(favoriteSelector, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
+                    .add(refreshLogList))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 702, Short.MAX_VALUE)
                     .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 362, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(refreshLogList))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 702, Short.MAX_VALUE)
-                            .add(layout.createSequentialGroup()
-                                .add(refreshLogView)
-                                .add(0, 611, Short.MAX_VALUE)))))
+                        .add(refreshLogView)
+                        .add(0, 611, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(favoriteSelector, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jScrollPane2)
-                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE))
+                    .add(layout.createSequentialGroup()
+                        .add(favoriteSelector, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE))
+                    .add(jScrollPane2))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(refreshLogList)
@@ -306,7 +310,12 @@ public class MainWindow extends javax.swing.JFrame {
         Favorite favorite = (Favorite) this.favoriteSelector.getSelectedItem();
         
         try {
-            Object connectionInstance = Class.forName("main.java.com.fluid.webdav."+favorite.getConnectionType()+"Logs").newInstance();
+            String packageName = favorite.getConnectionType().toLowerCase();
+            
+            logger.info("Connection type: "+favorite.getConnectionType());
+            logger.info("Package to use: "+packageName);
+            
+            Object connectionInstance = Class.forName("main.java.com.fluid."+packageName+".Logs").newInstance();
             this.logs = (Logs)connectionInstance;
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             System.out.println("Error created connection class");

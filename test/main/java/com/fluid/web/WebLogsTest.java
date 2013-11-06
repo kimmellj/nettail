@@ -5,7 +5,6 @@
 package main.java.com.fluid.web;
 
 import main.java.com.fluid.Favorite;
-import main.java.com.fluid.web.Logs;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -48,7 +47,7 @@ public class WebLogsTest {
         Favorite favorite = new Favorite();
         
         try {
-            favorite.load("", "", "http://localhost/", false);
+            favorite.load("", "", "", "http://localhost/", false);
         } catch (Exception e) {
             fail(e.getMessage());
         }

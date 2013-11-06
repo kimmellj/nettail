@@ -4,8 +4,6 @@
  */
 package main.java.com.fluid.webdav;
 
-import main.java.com.fluid.webdav.Logs;
-import java.util.ArrayList;
 import main.java.com.fluid.Favorite;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -49,7 +47,7 @@ public class WebDavLogsTest {
         Favorite favorite = new Favorite();
         
         try {
-            favorite.load("", "", "http://localhost/uploads/", false);
+            favorite.load("", "", "", "http://localhost/uploads/", false);
         } catch (Exception e) {
             fail(e.getMessage());
         }

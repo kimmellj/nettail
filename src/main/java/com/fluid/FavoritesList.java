@@ -165,6 +165,7 @@ public class FavoritesList extends ArrayList<Favorite> {
             favorite.setUsername(jsonFavorite.getString("username"));
             favorite.setPassword(jsonFavorite.getString("password"));
             favorite.setBaseUrl(jsonFavorite.getString("baseUrl"));
+            favorite.setName(jsonFavorite.getString("name"));
             
             if (jsonFavorite.isNull("webdav")) {
                 favorite.setWebdav(false);

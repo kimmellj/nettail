@@ -67,21 +67,17 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="favoriteSelector" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" alignment="0" pref="362" max="32767" attributes="0"/>
+                  <Component id="refreshLogList" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jScrollPane2" pref="702" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane1" alignment="0" min="-2" pref="362" max="-2" attributes="0"/>
-                          <Component id="refreshLogList" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane2" pref="702" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="refreshLogView" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="611" max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
+                      <Component id="refreshLogView" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="611" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -92,11 +88,13 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="favoriteSelector" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="favoriteSelector" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" pref="565" max="32767" attributes="0"/>
+                  </Group>
                   <Component id="jScrollPane2" max="32767" attributes="0"/>
-                  <Component id="jScrollPane1" pref="565" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -125,6 +123,9 @@
       <SubComponents>
         <Component class="javax.swing.JList" name="logList">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="f4" green="f4" red="f4" type="rgb"/>
+            </Property>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
               <StringArray count="0"/>
             </Property>
