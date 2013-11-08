@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>Nettail by jkimmell</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Nettail</h1>
+        <h2>Java Desktop Application that can monitor web acessible log files using a similar process as tail</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/jkimmell/nettail/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/jkimmell/nettail/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/jkimmell/nettail" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>
+<a name="nettail" class="anchor" href="#nettail"><span class="octicon octicon-link"></span></a>NetTail</h1>
+
+<p>A Java Desktop Application that can monitor web accessible log files using a similar process as tail.</p>
+
+<p>This was a fun project created in my spare time at work in order to monitor web accessible log files for the Demandware Platform.  The log files for a specific Demandware server are password protected using HTTP Basic AUTH and are only accessible via HTTP or the WebDav protocol.</p>
+
+<p>"Taiing" the log files is accomplished by specifying the size of content to retrieve using CURL. The application keeps track of how much content has been downloaded and how much more is needed on a specified interval.</p>
+
+<p>This project is my first full Java Desktop application and feed back is always welcome. If you have an suggestion on how to make the application better or how to better structure some of the internal components, please let me know!</p>
+
+<p>The following projects are used within this application:</p>
+
+<ul>
+<li><a href="http://hc.apache.org/httpcomponents-client-ga/">http://hc.apache.org/httpcomponents-client-ga/</a></li>
+<li>[<a href="http://commons.apache.org/proper/commons-codec/%5D(http://commons.apache.org/proper/commons-codec/">http://commons.apache.org/proper/commons-codec/](http://commons.apache.org/proper/commons-codec/</a>
+</li>
+<li><a href="http://commons.apache.org/proper/commons-logging/">http://commons.apache.org/proper/commons-logging/</a></li>
+<li><a href="https://java.net/downloads/appbundler/appbundler.html">https://java.net/downloads/appbundler/appbundler.html</a></li>
+</ul><h2>
+<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
+
+<ul>
+<li>Locally store any number of saved favorites
+
+<ul>
+<li>A favorite is a saved site configuration</li>
+</ul>
+</li>
+<li>View a list of any files ending in .log or .txt in a web accessible folder</li>
+<li>View the contents of any selected log file</li>
+<li>Monitor any changes on configurable repeat interval</li>
+</ul><h2>
+<a name="current-todo" class="anchor" href="#current-todo"><span class="octicon octicon-link"></span></a>Current ToDo</h2>
+
+<ul>
+<li>Figure out a better way to handle the data models for Favorites</li>
+<li>Encrypt local passwords</li>
+<li>Save settings / favorites to a more environment specific location (i.e. ~/Application Support on OSX)</li>
+<li>OSX Application Build needs to just use the JRE not JDK</li>
+<li>Make Favorite -&gt; Protocols more of dynamic lists instead of a boolean for WebDav</li>
+<li>Better logging using the logger library </li>
+<li>Write more tests and clean up the existing ones</li>
+</ul><h2>
+<a name="building-the-application" class="anchor" href="#building-the-application"><span class="octicon octicon-link"></span></a>Building the application</h2>
+
+<p>Build are executed by using the Ant build tool <a href="http://ant.apache.org/">http://ant.apache.org/</a>.</p>
+
+<p><strong>Normal Build</strong></p>
+
+<pre><code>ant
+
+# Built application will be in the dist/ folder
+</code></pre>
+
+<p><strong>Bundle application into a single distributable jar file</strong></p>
+
+<pre><code>ant build-single-jar
+
+# Bundled application will be in the store/ folder
+</code></pre>
+
+<p><strong>Bundle application into an executable OSX application</strong></p>
+
+<p><a href="http://docs.oracle.com/javase/7/docs/technotes/guides/jweb/packagingAppsForMac.html">http://docs.oracle.com/javase/7/docs/technotes/guides/jweb/packagingAppsForMac.html</a></p>
+
+<pre><code>ant build-single-jar
+ant build-osx-application
+
+# Bundled application will be in the store/ folder
+</code></pre>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
