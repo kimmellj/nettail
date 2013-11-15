@@ -22,17 +22,13 @@ The following projects are used within this application:
 * View the contents of any selected log file
 * Monitor any changes on configurable repeat interval
 
-## Current ToDo
-
-* Figure out a better way to handle the data models for Favorites
-* Encrypt local passwords
-* Save settings / favorites to a more environment specific location (i.e. ~/Application Support on OSX)
-* OSX Application Build needs to just use the JRE not JDK
-* Make Favorite -> Protocols more of dynamic lists instead of a boolean for WebDav
-* Better logging using the logger library 
-* Write more tests and clean up the existing ones
-
 ## Building the application
+
+**Requirements**
+
+* Java JDK 1.7
+* Apache Ant
+* The Java Home Environment Variable needs to be set to a valid JDK Installation
 
 Build are executed by using the Ant build tool [http://ant.apache.org/](http://ant.apache.org/).
 
@@ -47,6 +43,7 @@ ant
 **Bundle application into a single distributable jar file**
 
 ```
+ant
 ant build-single-jar
 
 # Bundled application will be in the store/ folder
@@ -57,9 +54,19 @@ ant build-single-jar
 [http://docs.oracle.com/javase/7/docs/technotes/guides/jweb/packagingAppsForMac.html](http://docs.oracle.com/javase/7/docs/technotes/guides/jweb/packagingAppsForMac.html)
 
 ```
+ant
 ant build-single-jar
 ant build-osx-application
 
 # Bundled application will be in the store/ folder
 ```
 
+## Current ToDo
+
+* Figure out a better way to handle the data models for Favorites
+* Encrypt local passwords
+* Save settings / favorites to a more environment specific location (i.e. ~/Application Support on OSX)
+* OSX Application Build needs to just use the JRE not JDK
+* Make Favorite -> Protocols more of dynamic lists instead of a boolean for WebDav
+* Better logging using the logger library 
+* Write more tests and clean up the existing ones

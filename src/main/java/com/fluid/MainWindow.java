@@ -309,6 +309,10 @@ public class MainWindow extends javax.swing.JFrame {
     private void favoriteSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_favoriteSelectorActionPerformed
         Favorite favorite = (Favorite) this.favoriteSelector.getSelectedItem();
         
+        if (favorite == null) {
+            return;
+        }
+        
         try {
             String packageName = favorite.getConnectionType().toLowerCase();
             
@@ -342,6 +346,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_refreshLogViewActionPerformed
 
     private void manageFavoritesMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageFavoritesMenuActionPerformed
+        this.favoritesWindow.addNewFavorite();
         this.favoritesWindow.setVisible(true);
     }//GEN-LAST:event_manageFavoritesMenuActionPerformed
 

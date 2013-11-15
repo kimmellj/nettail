@@ -116,7 +116,21 @@ public class FavoritesWindow extends javax.swing.JFrame {
         
         this.favorites.saveFavoritesToFile();
         
+        if (this.addingFavorite) {
+            this.addNewFavorite();
+        }
+        
         return true;
+    }
+    
+    /**
+     * Add a new favorite
+     * Preps the window to add a new favorite
+     */
+    public void addNewFavorite() {
+        this.addingFavorite = true;
+        this.saveFavoriteButton.setText("Save New Favorite");
+        this.emptyFavorite();        
     }
 
     /**
@@ -328,9 +342,7 @@ public class FavoritesWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteFavoriteButtonActionPerformed
 
     private void addFavoriteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFavoriteButtonActionPerformed
-        this.addingFavorite = true;
-        this.saveFavoriteButton.setText("Save New Favorite");
-        this.emptyFavorite();
+        this.addNewFavorite();
     }//GEN-LAST:event_addFavoriteButtonActionPerformed
 
     private void hideShowPasswordCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hideShowPasswordCheckActionPerformed
