@@ -1,4 +1,5 @@
-NetTail
+
+![Fluid, Inc](http://www.fluid.com/img/logo.jpg) NetTail
 =======
 
 A Java Desktop Application that can monitor web accessible log files using a similar process as tail.
