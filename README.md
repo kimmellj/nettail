@@ -60,13 +60,3 @@ ant build-osx-application
 
 # Bundled application will be in the store/ folder
 ```
-
-## Current ToDo
-
-* Figure out a better way to handle the data models for Favorites
-* Encrypt local passwords
-* Save settings / favorites to a more environment specific location (i.e. ~/Application Support on OSX)
-* OSX Application Build needs to just use the JRE not JDK
-* Make Favorite -> Protocols more of dynamic lists instead of a boolean for WebDav
-* Better logging using the logger library 
-* Write more tests and clean up the existing ones
